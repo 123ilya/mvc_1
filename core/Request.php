@@ -8,15 +8,15 @@ class Request
     {
         $path = $_SERVER["REQUEST_URI"] ?? '/';
         $position = \strpos($path, '?');
-        echo '<pre>';
-        \var_dump($position);
-        // \var_dump($path);
-
-        echo '</pre>';
-        exit;
+        if ($position === \false) {
+            return $path;
+        }
+        $path = \substr($path, 0, $position);
+        return $path;
     }
 
     public function getMethod()
     {
+        return \strtolower($_SERVER['REQUEST_METHOD']);
     }
 }
