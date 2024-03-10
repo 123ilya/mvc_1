@@ -7,6 +7,13 @@ use app\core\Application;
 class SiteController
 {
 
+    public static function home()
+    {
+        $params = [
+            'name' => 'Ilya'
+        ];
+        return Application::$app->router->renderView('home', $params);
+    }
 
 
     public static function contact()

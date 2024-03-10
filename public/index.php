@@ -11,7 +11,7 @@ $app = new Application(dirname(__DIR__));
 // exit;
 
 
-$app->router->get('/mvc_1/public/', 'home');
+$app->router->get('/mvc_1/public/', [SiteController::class, 'home']);
 $app->router->get('/mvc_1/public/contact', [SiteController::class, 'contact']);
 $app->router->post('/mvc_1/public/contact', [SiteController::class, 'handleContact']);
 
