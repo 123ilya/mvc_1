@@ -10,5 +10,7 @@
             "email": "123ilya@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "twbs/bootstrap": "5.3.3"
+    }
 }
