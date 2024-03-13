@@ -45,7 +45,7 @@ class Router
             // echo '</pre>';
             // exit;
         }
-        return \call_user_func($callback);
+        return \call_user_func($callback, $this->request);
     }
     //-----------------------------------------------------------------------------------------------
     public function renderView($view, array $params = [])
