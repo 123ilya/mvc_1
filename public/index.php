@@ -8,8 +8,7 @@ use app\core\Application;
 
 
 $app = new Application(dirname(__DIR__));
-// echo dirname(__DIR__);
-// exit;
+
 
 
 $app->router->get('/mvc_1/public/', [SiteController::class, 'home']);
