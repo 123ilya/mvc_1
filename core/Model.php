@@ -41,18 +41,21 @@ abstract class Model
                     $this->addError($attribute, self::RULE_EMAIL);
                 }
                 if ($ruleName === self::RULE_MIN && \strlen($value) < $rule['min']) {
-                    $this->addError($attribute, self::RULE_MIN);
+                    $this->addError($attribute, self::RULE_MIN, $rule);
                 }
                 if ($ruleName === self::RULE_MAX && \strlen($value) > $rule['max']) {
-                    $this->addError($attribute, self::RULE_MAX);
+                    $this->addError($attribute, self::RULE_MAX, $rule);
                 }
             }
         }
         return empty($this->errors);
     }
-    public function addError(string $attribute, string $rule)
+    public function addError(string $attribute, string $rule, $params = [])
     {
         $message = $this->errorMessages()[$rule] ?? '';
+        foreach ($params as $key => $value) {
+            $message = \str_replace("{{$key}}", $value, $message);
+        }
         $this->errors[$attribute][] = $message;
     }
 
