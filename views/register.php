@@ -1,4 +1,15 @@
+<?php
+
+use app\core\form\Form;
+?>
 <h1>Create an account</h1>
+<?php echo Form::begin('', 'post') ?>
+
+<?php echo Form::end() ?>
+
+
+
+
 
 <form novalidate action="" method="post">
     <div class="row">
