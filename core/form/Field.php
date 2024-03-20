@@ -21,7 +21,7 @@ class Field
         return \sprintf('
         <div class="mb-3">
         <label class="form-label">%s</label>
-        <input type="text" name="%s" value="%s" class="form-control%s">
+        <input type="text" name="%s" value="%s" class="form-control %s">
         <div class="invalid-feedback">%s</div>
         </div>
         ', $this->attribute,
