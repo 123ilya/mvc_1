@@ -6,27 +6,44 @@ use PDO;
 
 class Database
 {
-    public PDO $pdo;
+    public PDO $pdo; // property, for PDO class example
     public function __construct(array $config)
     {
         $dsn = $config['dsn'] ?? '';
         $user = $config['user'] ?? '';
         $password = $config['password'] ?? '';
 
-        $this->pdo = new PDO($dsn, $user, $password);
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pdo = new PDO($dsn, $user, $password); //initialization of $pdo property
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Setting an atribbute on the database handle
     }
-
+    //-----------------------------------------------------------------------------------------
     public function applyMigrations()
     {
         $this->createMigrationsTable();
-        $this->getAppliedMigrations();
+        $appliedMigrations = $this->getAppliedMigrations();
+        // echo '<pre>';
+        // \var_dump($appliedMigrations);
+        // echo '</pre>';
+        // exit;
+
         $files = \scandir(Application::$ROOT_DIR . '/migrations');
-        echo '<pre>';
-        \var_dump($files);
-        echo '</pre>';
-        exit;
+        $toApplyMigrations = \array_diff($files, $appliedMigrations);
+
+
+        foreach ($toApplyMigrations as $migration) {
+            if ($migration === '.' || $migration === '..') {
+                continue;
+            }
+            require Application::$ROOT_DIR . '/migrations/' . $migration;
+            $className = \pathinfo($migration, \PATHINFO_FILENAME);
+            echo '<pre>';
+            \var_dump($className);
+            echo '</pre>';
+
+          
+        }
     }
+    //-----------------------------------------------------------------------------------------
 
     public function createMigrationsTable()
     {
@@ -36,6 +53,7 @@ class Database
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP) ENGINE=INNODB;"
         );
     }
+    //---------------------------------------------------------------------------------
 
     public function getAppliedMigrations()
     {
