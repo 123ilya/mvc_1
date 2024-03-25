@@ -21,10 +21,7 @@ class Database
     {
         $this->createMigrationsTable();
         $appliedMigrations = $this->getAppliedMigrations();
-        // echo '<pre>';
-        // \var_dump($appliedMigrations);
-        // echo '</pre>';
-        // exit;
+
 
         $files = \scandir(Application::$ROOT_DIR . '/migrations');
         $toApplyMigrations = \array_diff($files, $appliedMigrations);
@@ -36,11 +33,10 @@ class Database
             }
             require Application::$ROOT_DIR . '/migrations/' . $migration;
             $className = \pathinfo($migration, \PATHINFO_FILENAME);
-            echo '<pre>';
-            \var_dump($className);
-            echo '</pre>';
-
-          
+            $instance = new $className();
+            echo "Applying migration $migration" . \PHP_EOL;
+            $instance->up() . \PHP_EOL;
+            echo "Applyed migration $migration" . \PHP_EOL;
         }
     }
     //-----------------------------------------------------------------------------------------
