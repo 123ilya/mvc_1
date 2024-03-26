@@ -31,18 +31,18 @@ class Database
             if ($migration === '.' || $migration === '..') {
                 continue;
             }
-            require Application::$ROOT_DIR . '/migrations/' . $migration;
+            require_once Application::$ROOT_DIR . '/migrations/' . $migration;
             $className = \pathinfo($migration, \PATHINFO_FILENAME);
             $instance = new $className();
-            echo "Applying migration $migration" . \PHP_EOL;
+            $this->log("Applying migration $migration ");
             $instance->up() . \PHP_EOL;
-            echo "Applyed migration $migration" . \PHP_EOL;
+            $this->log("Applied migration $migration");
             $newMigrations[] = $migration;
         }
         if (!empty($newMigrations)) {
             $this->saveMigrations($newMigrations);
         } else {
-            echo 'All migrations are applied';
+            $this->log('All migrations are applied');
         }
     }
     //-----------------------------------------------------------------------------------------
@@ -72,5 +72,10 @@ class Database
         $statement = $this->pdo->prepare("INSERT INTO migrations (migration) VALUES $str ");
 
         $statement->execute();
+    }
+
+    protected function log(string $message)
+    {
+        echo '[' . \date('Y-m-d H:i:s') . '] - ' . $message . \PHP_EOL;
     }
 }
